@@ -41,11 +41,18 @@ function love.load(arg)
 	enemyImg = love.graphics.newImage('assets/enemy.png')
 	bulletImg = love.graphics.newImage('assets/bullet.png')
 	gunSound = love.audio.newSource("assets/gun-sound.wav", "static")
+	scoreSound = love.audio.newSource("assets/score-sound.wav", "static")
 end
 
 
 -- Updating
 function love.update(dt)
+	if score % 100  == 0 then
+		scoreSound: Play(
+		)
+	end
+
+
 	-- I always start with an easy way to exit the game
 	if love.keyboard.isDown('escape') then
 		love.event.push('quit')
