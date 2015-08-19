@@ -48,8 +48,7 @@ end
 -- Updating
 function love.update(dt)
 	if score % 100  == 0 then
-		scoreSound: Play(
-		)
+		scoreSound:play()
 	end
 
 
