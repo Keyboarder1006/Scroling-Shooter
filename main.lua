@@ -1,5 +1,5 @@
 debug = true
-
+Gui = require "quickie"
 -- Timers
 -- We declare these here so we don't have to edit them multiple places
 canShoot = true
@@ -37,6 +37,7 @@ end
 
 -- Loading
 function love.load(arg)
+	a = 1
 	player.img = love.graphics.newImage('assets/plane.png')
 	enemyImg = love.graphics.newImage('assets/enemy.png')
 	bulletImg = love.graphics.newImage('assets/bullet.png')
@@ -46,6 +47,25 @@ end
 
 
 -- Updating
+Gui.group.push{grow = "down", pos = {100, 100}}
+
+Gui.Label{text = "Schwierigkeitsstufe"}
+
+if Gui.Button{text = "Einfach"} then
+	a = a
+end
+if Gui.Button{text = "Mittel"} then
+	a = a*3
+end
+if Gui.Button{text = "Chuck Noris"} then
+	a = a*10
+end
+
+if Gui.Button{text = "Exit"} then
+	love.event.push("quit")
+end
+
+Gui.group.pop{}
 function love.update(dt)
 	if score % 100  == 0 then
 		scoreSound:play()
@@ -64,7 +84,7 @@ function love.update(dt)
 	end
 
 	-- Time out enemy creation
-	createEnemyTimer = createEnemyTimer - (1 * dt)
+	createEnemyTimer = createEnemyTimer - (a * dt)
 	if createEnemyTimer < 0 then
 		createEnemyTimer = createEnemyTimerMax
 
@@ -164,6 +184,7 @@ end
 
 -- Drawing
 function love.draw(dt)
+	Gui.core.draw()
 	for i, bullet in ipairs(bullets) do
 		love.graphics.draw(bullet.img, bullet.x, bullet.y)
 	end
