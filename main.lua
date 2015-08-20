@@ -47,26 +47,27 @@ end
 
 
 -- Updating
-Gui.group.push{grow = "down", pos = {100, 100}}
-
-Gui.Label{text = "Schwierigkeitsstufe"}
-
-if Gui.Button{text = "Einfach"} then
-	a = a
-end
-if Gui.Button{text = "Mittel"} then
-	a = a*3
-end
-if Gui.Button{text = "Chuck Noris"} then
-	a = a*10
-end
-
-if Gui.Button{text = "Exit"} then
-	love.event.push("quit")
-end
-
-Gui.group.pop{}
 function love.update(dt)
+	Gui.group.push{grow = "right", pos = {10, 10}}
+
+	Gui.Label{text = "Schwierigkeit"}
+
+	if Gui.Button{text = "Einfach"} then
+		a = a
+	end
+	if Gui.Button{text = "Mittel"} then
+		a = a*3
+	end
+	if Gui.Button{text = "Chuck Noris"} then
+		a = a*5
+	end
+
+	if Gui.Button{text = "Exit"} then
+		love.event.push("quit")
+	end
+
+	Gui.group.pop{}
+
 	if score % 100  == 0 then
 		scoreSound:play()
 	end
@@ -179,6 +180,7 @@ function love.update(dt)
 		-- reset our game state
 		score = 0
 		isAlive = true
+		a = 1
 	end
 end
 
@@ -194,7 +196,7 @@ function love.draw(dt)
 	end
 
 	love.graphics.setColor(255, 255, 255)
-	love.graphics.print("SCORE: " .. tostring(score), 400, 10)
+	love.graphics.print("SCORE: " .. tostring(score), 400, 40)
 
 	if isAlive then
 		love.graphics.draw(player.img, player.x, player.y)
@@ -204,6 +206,6 @@ function love.draw(dt)
 
 	if debug then
 		fps = tostring(love.timer.getFPS())
-		love.graphics.print("Current FPS: "..fps, 9, 10)
+		love.graphics.print("Current FPS: "..fps, 10, 600)
 	end
 end
