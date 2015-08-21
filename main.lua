@@ -1,5 +1,13 @@
 debug = true
 Gui = require "quickie"
+
+
+-- a -> spawningRate
+-- shootingRate
+
+
+
+
 -- Timers
 -- We declare these here so we don't have to edit them multiple places
 canShoot = true
@@ -37,6 +45,8 @@ end
 
 -- Loading
 function love.load(arg)
+	shooting_time = 1
+	shooting_rate = 1
 	a = 1
 	player.img = love.graphics.newImage('assets/plane.png')
 	enemyImg = love.graphics.newImage('assets/enemy.png')
@@ -48,18 +58,22 @@ end
 
 -- Updating
 function love.update(dt)
+	--If you want to had a harder game click Mittel
 	Gui.group.push{grow = "right", pos = {10, 10}}
 
 	Gui.Label{text = "Schwierigkeit"}
 
 	if Gui.Button{text = "Einfach"} then
 		a = a
+
 	end
 	if Gui.Button{text = "Mittel"} then
-		a = a*3
+		a = a*2
+
 	end
 	if Gui.Button{text = "Chuck Noris"} then
 		a = a*5
+
 	end
 
 	if Gui.Button{text = "Exit"} then
@@ -68,6 +82,29 @@ function love.update(dt)
 
 	Gui.group.pop{}
 
+	--When the score is 100 then shoot faster for 50 times
+	if score % 100 == 0 then
+		shooting_rate = shooting_rate*1,5
+		shooting_time = 150
+	end
+	-- timer for shootingrate and time
+
+	shooting_time = shooting_time-0,1
+
+	if shooting_time == 0 then
+		shooting_rate = shooting_rate/1,5
+
+
+
+
+	end
+
+
+	-- when shooting_time = 0 keep shootingrate 1
+
+
+
+	-- When the score is 100 then play sound
 	if score % 100  == 0 then
 		scoreSound:play()
 	end
@@ -79,7 +116,7 @@ function love.update(dt)
 	end
 
 	-- Time out how far apart our shots can be.
-	canShootTimer = canShootTimer - (1 * dt)
+	canShootTimer = canShootTimer - (shooting_rate * dt)
 	if canShootTimer < 0 then
 		canShoot = true
 	end
@@ -98,7 +135,7 @@ function love.update(dt)
 
 	-- update the positions of bullets
 	for i, bullet in ipairs(bullets) do
-		bullet.y = bullet.y - (250 * dt)
+		bullet.y = bullet.y - (300 * dt)
 
 		if bullet.y < 0 then -- remove bullets when they pass off the screen
 		table.remove(bullets, i)
